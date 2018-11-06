@@ -1,6 +1,6 @@
 <?php
 /**
- * Cold Storage
+ * GoWP Better WooCommerce Store Notices
  *
  * @wordpress-plugin
  * Plugin Name: GoWP Better WooCommerce Store Notices
@@ -8,19 +8,7 @@
  * Author:      GoWP
  * Author URI:  https://www.gowp.com
  * Text Domain: gowp-better-wc-store-notices
- * Version:     1.0.0
- * Requires:    1.5.0
- * Tested:      4.9.8
- * Update URI:  https://tools.gowp.com/plugins
  */
-
-/* Update Checker */
-
-	require 'plugin-update-checker/plugin-update-checker.php';
-	$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-		'https://tools.gowp.com/plugins/gowp-better-wc-store-notices/info.json',
-		__FILE__
-	);
 
 add_action( 'init', 'bsn_register_post_type' );
 function bsn_register_post_type() {
