@@ -73,11 +73,17 @@ function bsn_dropdown_pages_filter( $pages, $r ) {
 add_filter( 'woocommerce_demo_store', 'bsn_display_notice' );
 function bsn_display_notice( $output ) {
 	if ( $bsn_select_notice_id = get_option( 'bsn_select_notice' ) ) {
-
-
-		$bsn_select_notice_post = get_post( $bsn_select_notice_id );
-		$bsn_select_notice = $bsn_select_notice_post->post_content;
-		$output = '<p class="woocommerce-store-notice demo_store">' . wp_kses_post( $bsn_select_notice ) . ' <a href="#" class="woocommerce-store-notice__dismiss-link">' . esc_html__( 'Dismiss', 'woocommerce' ) . '</a></p>';
+		$args = array(
+			'post_type' => 'bsn_shop_notice',
+			'post_status' => 'publish',
+			'p' => $bsn_select_notice_id
+		);
+		$notices = new WP_Query( $args );
+		if ( ! empty( $notices->posts[0] ) ) {
+			$bsn_select_notice_post = $notices->posts[0];
+			$bsn_select_notice = $bsn_select_notice_post->post_content;
+			$output = '<p class="woocommerce-store-notice demo_store">' . wp_kses_post( $bsn_select_notice ) . ' <a href="#" class="woocommerce-store-notice__dismiss-link">' . esc_html__( 'Dismiss', 'woocommerce' ) . '</a></p>';
+		}
 	}
 	return $output;
 }
