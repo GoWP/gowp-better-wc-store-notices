@@ -70,7 +70,7 @@
 
 		add_filter( 'get_pages', 'bwcsn_dropdown_pages_filter', 10, 2 );
 		function bwcsn_dropdown_pages_filter( $pages, $r ) {
-			if ( '_customize-dropdown-pages-bwcsn_select_notice' == $r['name'] ) {
+			if ( isset( $r['name'] ) && ( '_customize-dropdown-pages-bwcsn_select_notice' == $r['name'] ) ) {
 				$args = array( 'numberposts' => '-1', 'post_type' => 'bwcsn_shop_notice' );
 				$pages = get_posts( $args );
 			}
