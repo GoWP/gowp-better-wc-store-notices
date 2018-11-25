@@ -10,11 +10,9 @@ Enhances WC store notice functionality
 
 == Description ==
 
-This plugin allows you to define multiple store notices and select which should
-be used. Handy if you have a collection of store notices that you use often
-(eg. holidays, recurring sales, etc).
+This plugin allows you to define multiple store notices and select which should be used. Handy if you have a collection of store notices that you use often (eg. holidays, recurring sales, etc).
 
-(GitHub)[https://github.com/GoWP/gowp-better-wc-store-notices]
+[GitHub](https://github.com/GoWP/gowp-better-woocommerce-store-notices)
 
 == Screenshots ==
  

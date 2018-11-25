@@ -5,6 +5,7 @@
  * @wordpress-plugin
  * Plugin Name: GoWP Better WooCommerce Store Notices
  * Description: Enhances WC store notice functionality
+ * Version:     1.0.0
  * Author:      GoWP
  * Author URI:  https://www.gowp.com
  * Text Domain: gowp-better-wc-store-notices
@@ -13,10 +14,10 @@
 
 /* Register post type */
 
-	add_action( 'init', 'bsn_register_post_type' );
-	function bsn_register_post_type() {
+	add_action( 'init', 'bwcsn_register_store_notices' );
+	function bwcsn_register_store_notices() {
 		register_post_type(
-			'bsn_shop_notice',
+			'bwcsn_shop_notice',
 			array(
 				'labels'                => array(
 					'name'                  => _x( 'Store Notices', 'Post Type General Name', 'gowp-better-wc-store-notices' ),
@@ -43,10 +44,10 @@
 
 /* Add setting/control to Customizer */
 
-	add_action( 'customize_register', 'bsn_customize_register', 20 );
-	function bsn_customize_register( $wp_customize ) {
+	add_action( 'customize_register', 'bwcsn_customize_register', 20 );
+	function bwcsn_customize_register( $wp_customize ) {
 		$wp_customize->add_setting(
-			'bsn_select_notice',
+			'bwcsn_select_notice',
 			array(
 				'default'           => '',
 				'type'              => 'option',
@@ -54,12 +55,12 @@
 			)
 		);
 		$wp_customize->add_control(
-			'bsn_select_notice',
+			'bwcsn_select_notice',
 			array(
 				'label'    => __( 'GoWP Better Store Notices', 'gowp-better-wc-store-notices' ),
-				'description' => __( 'Choose the desired active store notice from the list below. This selection will over-ride the default WC store notice above. Store notices can be managed <a href="' . admin_url( 'edit.php?post_type=bsn_shop_notice' ) . '">here</a>.', 'gowp-better-wc-store-notices' ),
+				'description' => __( 'Choose the desired active store notice from the list below. This selection will over-ride the default WC store notice above. Store notices can be managed <a href="' . admin_url( 'edit.php?post_type=bwcsn_shop_notice' ) . '">here</a>.', 'gowp-better-wc-store-notices' ),
 				'section'     => 'woocommerce_store_notice',
-				'settings'    => 'bsn_select_notice',
+				'settings'    => 'bwcsn_select_notice',
 				'type'        => 'dropdown-pages',
 			)
 		);
@@ -67,10 +68,10 @@
 
 	// Filter the result of the dropdown-pages control (simpler than a custom control)
 
-		add_filter( 'get_pages', 'bsn_dropdown_pages_filter', 10, 2 );
-		function bsn_dropdown_pages_filter( $pages, $r ) {
-			if ( '_customize-dropdown-pages-bsn_select_notice' == $r['name'] ) {
-				$args = array( 'numberposts' => '-1', 'post_type' => 'bsn_shop_notice' );
+		add_filter( 'get_pages', 'bwcsn_dropdown_pages_filter', 10, 2 );
+		function bwcsn_dropdown_pages_filter( $pages, $r ) {
+			if ( '_customize-dropdown-pages-bwcsn_select_notice' == $r['name'] ) {
+				$args = array( 'numberposts' => '-1', 'post_type' => 'bwcsn_shop_notice' );
 				$pages = get_posts( $args );
 			}
 			return $pages;
@@ -78,19 +79,19 @@
 
 /* Display the store notice if appliable */
 
-	add_filter( 'woocommerce_demo_store', 'bsn_display_notice' );
-	function bsn_display_notice( $output ) {
-		if ( $bsn_select_notice_id = get_option( 'bsn_select_notice' ) ) {
+	add_filter( 'woocommerce_demo_store', 'bwcsn_display_notice' );
+	function bwcsn_display_notice( $output ) {
+		if ( $bwcsn_select_notice_id = get_option( 'bwcsn_select_notice' ) ) {
 			$args = array(
-				'post_type' => 'bsn_shop_notice',
+				'post_type' => 'bwcsn_shop_notice',
 				'post_status' => 'publish',
-				'p' => $bsn_select_notice_id
+				'p' => $bwcsn_select_notice_id
 			);
 			$notices = new WP_Query( $args );
 			if ( ! empty( $notices->posts[0] ) ) {
-				$bsn_select_notice_post = $notices->posts[0];
-				$bsn_select_notice = $bsn_select_notice_post->post_content;
-				$output = '<p class="woocommerce-store-notice demo_store">' . wp_kses_post( $bsn_select_notice ) . ' <a href="#" class="woocommerce-store-notice__dismiss-link">' . esc_html__( 'Dismiss', 'woocommerce' ) . '</a></p>';
+				$bwcsn_select_notice_post = $notices->posts[0];
+				$bwcsn_select_notice = $bwcsn_select_notice_post->post_content;
+				$output = '<p class="woocommerce-store-notice demo_store">' . wp_kses_post( $bwcsn_select_notice ) . ' <a href="#" class="woocommerce-store-notice__dismiss-link">' . esc_html__( 'Dismiss', 'woocommerce' ) . '</a></p>';
 			}
 		}
 		return $output;
