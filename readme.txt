@@ -2,7 +2,7 @@
 Contributors: karpstrucking
 Tags: woocommerce
 Requires at least: 3.4
-Tested up to: 5.0
+Tested up to: 5.0.1
 Requires PHP: 5.6
 Stable tag: trunk
 
